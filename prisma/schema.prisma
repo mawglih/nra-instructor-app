@@ -25,8 +25,9 @@ model User {
   id          String      @id @default(uuid()) // User ID (UUID-based)
   username    String      @unique
   createdAt   DateTime    @default(now())
-
+  userId      String
   credentials Credential[] // Relationship: One user can have many credentials
+  courses     Course[] //Relationship: One user can have many courses
 }
 
 model Credential {
@@ -40,4 +41,38 @@ model Credential {
   
   @@index([credentialId])
   @@index([userId])
+}
+
+model Course {
+  id            String   @id @default(uuid()) // Course ID
+  endDate       DateTime?
+  createdAt     DateTime  @default(now())
+  courseTitle   String
+  courseURL     String
+  courseId      String
+  users         User[]
+  archived      Boolean
+  updatedAt     DateTime
+  courseLength  String?
+  numberSeats   Int?
+
+  @@index([courseId])
+}
+
+model Contact {
+  id        String    @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String?
+  role      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Address {
+  id        String    @id @default(uuid())
+  street    String
+  city      String
+  state     String
+  zip       String
 }
